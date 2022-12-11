@@ -1,0 +1,71 @@
+{
+  "name": "@aland20/create-stack",
+  "description": "Easily start building web application by generating boilerplate for your next project.",
+  "version": "0.1.4",
+  "license": "MIT",
+  "author": "AlanD20",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlanD20/create-stack.git"
+  },
+  "homepage": "https://github.com/AlanD20/create-stack",
+  "keywords": [
+    "prisma",
+    "redux",
+    "rollup",
+    "tsup",
+    "simple-stack",
+    "web-stack",
+    "boilerplate",
+    "tailwind",
+    "typescript"
+  ],
+  "type": "module",
+  "exports": "./dist/index.js",
+  "bin": {
+    "create-stack": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=14.16"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "rimraf dist && tsc && rollup -c rollup.config.js --environment NODE_ENV:local",
+    "watch": "yarn dev -w",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js --environment NODE_ENV=production",
+    "format": "prettier --write src"
+  },
+  "dependencies": {
+    "boxen": "^7.0.0",
+    "chalk": "^5.2.0",
+    "commander": "^9.4.1",
+    "fs-jetpack": "^5.1.0",
+    "handlebars": "^4.7.7",
+    "inquirer": "^9.1.4",
+    "ora": "^6.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^23.0.4",
+    "@rollup/plugin-json": "^5.0.2",
+    "@rollup/plugin-typescript": "^10.0.1",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.6.3",
+    "prettier": "^2.8.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^3.7.2",
+    "rollup-plugin-hoist-import-deps": "^1.1.0",
+    "rollup-plugin-ts-paths": "^1.0.5",
+    "rollup-plugin-uglify": "^6.0.4",
+    "type-fest": "^3.3.0",
+    "typescript": "^4.9.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

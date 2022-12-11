@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "ES5",
+    "module": "ESNext",
+    "lib": ["es2017", "ESNext"],
+    // stricter type-checking for stronger correctness. Recommended by TS
+    "strict": true,
+    "allowJs": false,
+    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
+    "skipLibCheck": true,
+    // interop between ESM and CJS modules. Recommended by TS
+    "esModuleInterop": true,
+    "useDefineForClassFields": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    // change it to true, if you want stricter checkng.
+    "noUnusedLocals": false,
+    "noImplicitReturns": true,
+    "noUnusedParameters": false,
+    // error out if import and file system have a casing mismatch. Recommended by TS
+    "forceConsistentCasingInFileNames": true,
+    // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
+    "noEmit": true,
+    // use Node"s module resolution algorithm, instead of the legacy TS one
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // transpile JSX to React.createElement
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "test"]
+}

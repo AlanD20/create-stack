@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "{{appName}}",
+      "script": "dist/index.js",
+      "watch": [
+        "dist/index.js"
+      ],
+      "ignore_watch": [
+        "node_modules"
+      ],
+      "env": {
+        "NODE_ENV": "local",
+        "PORT": 3000
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
