@@ -1,7 +1,7 @@
 {
   "name": "@aland20/create-stack",
   "description": "Easily start building web application by generating boilerplate for your next project.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "author": "AlanD20",
   "private": false,

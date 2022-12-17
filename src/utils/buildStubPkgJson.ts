@@ -18,6 +18,13 @@ export const buildStubPkgJson = (
   const withDocker = cliOptions.options.withDockerCompose;
   const withPM2 = cliOptions.options.withPm2;
 
+  if (withPM2) {
+    pkg.dependencies = {
+      ...pkg.dependencies,
+      "pm2": "^5.2.2",
+    };
+  }
+
   pkg.scripts = {
     ...getStartingScripts(withPM2),
     ...getBuilderScripts(builderType),

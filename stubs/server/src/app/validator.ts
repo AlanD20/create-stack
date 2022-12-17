@@ -1,25 +1,18 @@
-import _ from 'yup';
+import { z } from 'zod';
 import __ from 'lodash';
 import { Response } from 'express';
-
-const NAME_VALIDATOR = _.string()
-  .typeError('Name must be string')
-  .required('Name is required')
-  .min(3, 'Name must be at least 3 characters');
-
-const EMAIL_VALIDATOR = _.string()
-  .typeError('Email is required')
-  .required('Email is required')
-  .email()
-  .typeError('Invalid email format');
-
+import { Prisma } from '@prisma/client';
 
 const Schemas = {
-  question: _.object().shape({
-    name: NAME_VALIDATOR,
-    email: EMAIL_VALIDATOR,
-  }),
+  question: z.object({
+    name: z.string().min(3, "Name must be at least 3 characters"),
+    email: z.string().email('email must be valid email address'),
+    subscribe: z.boolean().nullish().default(false)
+  }).strict(),
 };
+
+// Extract types from schema
+export type Question = z.infer<typeof Schemas.question>
 
 interface ValidatorState {
   response: Response;
@@ -32,11 +25,8 @@ export const validator = async (
   func: Function
 ) => {
   try {
-    const validated = await Schemas[schema].camelCase().validate(body, {
-      strict: true,
-      stripUnknown: true,
-      abortEarly: false,
-    });
+    // Throw error
+    const validated = Schemas[schema].parse(body);
 
     const { data, error, message } = await func(validated);
 
@@ -45,26 +35,59 @@ export const validator = async (
     }
 
     return response.status(200).json({
+      data,
       message: message || 'Successful',
       status: 'success',
       code: 200,
-      ...data,
     });
-  } catch (err: any) {
-    let errors = err.errors || [];
 
-    // if (err instanceof Prisma.PrismaClientKnownRequestError) {
-    //   if (err.code === 'P2002') {
-    //     const column = __.capitalize(err.meta.target.split('_')[1]);
-    //     errors.push(`${column} is already exist`);
-    //   }
-    // }
+  } catch (err: any) {
+
+    let errors: any = [];
+
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+
+      errors = parsePrismaErrors(err);
+    }
+    else if (err instanceof z.ZodError) {
+
+      errors = parseZodErrors(err);
+    }
+    else {
+
+      errors = err.errors;
+    }
+
+    const isErrorArray = Array.isArray(errors) && errors.length > 0
 
     return response.status(422).json({
-      message: `${err}`,
-      errors: errors.length > 0 ? errors : undefined,
+      errors: isErrorArray ? errors : undefined,
       status: 'failed',
       code: 422,
     });
   }
 };
+
+function parsePrismaErrors(err: Prisma.PrismaClientKnownRequestError) {
+
+  const errors: string[] = []
+
+  if (err.code === 'P2002') {
+    // @ts-ignore
+    const target: string = err.meta.target.split('_')[1]
+    const column = __.capitalize(target);
+    errors.push(`${column} is already exist`);
+  }
+
+  return errors;
+}
+
+function parseZodErrors(zodError: z.ZodError): string[] {
+
+  const errors: string[] = [];
+  zodError.issues.forEach(
+    (issue: z.ZodIssue) => errors.push(issue.message)
+  );
+
+  return errors;
+}
