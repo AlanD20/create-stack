@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   outDir: 'dist',
-  format: 'cjs',
+  format: 'esm',
   splitting: true,
   treeshake: true,
   sourcemap: true,

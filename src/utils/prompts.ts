@@ -46,3 +46,25 @@ export const builderTypePrompt = async () => {
 
   return builder;
 };
+
+export const withDockerComposePrompt = async () => {
+  const { withDocker } = await inquirer.prompt<{ withDocker: boolean }>({
+    name: 'withDocker',
+    type: 'confirm',
+    message: color.info('Would you like to include docker compose file?'),
+    default: false,
+  });
+
+  return withDocker;
+};
+
+export const withPm2Prompt = async () => {
+  const { withPm2 } = await inquirer.prompt<{ withPm2: boolean }>({
+    name: 'withPm2',
+    type: 'confirm',
+    message: color.info('Would you like to add PM2?'),
+    default: false,
+  });
+
+  return withPm2;
+};

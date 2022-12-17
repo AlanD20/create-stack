@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "target": "ES5",
+    "target": "ESNext",
     "module": "ESNext",
     "lib": ["es2017", "ESNext"],
     // stricter type-checking for stronger correctness. Recommended by TS

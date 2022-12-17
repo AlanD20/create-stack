@@ -1,11 +1,12 @@
 import { CLIOptions } from '~/types.js';
-import { WritableData } from 'fs-jetpack/types.js';
+import { getStubPath } from '~/utils/fsUtils.js';
+import { FSJetpack, WritableData } from 'fs-jetpack/types.js';
 import { compileStubFile } from '../utils/compileStubFile.js';
-import { createProjectDirectory, getStubPath } from '~/utils/fsUtils.js';
 
-export const initClientProject = (cliOptions: CLIOptions): boolean => {
-  const projectDir = createProjectDirectory(cliOptions.appName);
-
+export const initClientProject = (
+  projectDir: FSJetpack,
+  cliOptions: CLIOptions
+): boolean => {
   // Resolve client template path
   const stubPath = getStubPath('client');
 

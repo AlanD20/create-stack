@@ -13,6 +13,8 @@ import {
   builderTypePrompt,
   forcePrompt,
   projectTypePrompt,
+  withDockerComposePrompt,
+  withPm2Prompt,
 } from './utils/prompts.js';
 import {
   getPackageDescription,
@@ -27,6 +29,8 @@ const CLIDefaultOptions: CLIOptions = {
   options: {
     projectType: 'client',
     builderType: 'rollup',
+    withDockerCompose: false,
+    withPm2: false,
   },
 };
 
@@ -70,7 +74,10 @@ const main = async () => {
 
   cliResults.options.projectType = await projectTypePrompt();
 
+  // Prompts when user chooses server boilerplate
   if (cliResults.options.projectType === 'server') {
+    cliResults.options.withDockerCompose = await withDockerComposePrompt();
+    cliResults.options.withPm2 = await withPm2Prompt();
     cliResults.options.builderType = await builderTypePrompt();
   }
 
@@ -80,18 +87,16 @@ const main = async () => {
   const isSuccess = await initProject(cliResults);
 
   // End of spinner
-  if (isSuccess) {
-    spinner.color = 'green';
-    spinner.text = color.success('Project Initialized!');
-    spinner.stopAndPersist({ prefixText: '✅' });
-  } else {
-    spinner.color = 'red';
-    spinner.text = color.error('Failed to initialize project!');
-    spinner.stopAndPersist({ prefixText: '❌' });
+  spinner.stop();
+
+  if (!isSuccess) {
+    logger.error('❌ Failed to initialize project!');
     process.exit(1);
   }
 
   // Final message
+
+  logger.success('✅ Project Initialized!');
 
   box.success(`
     Your project is ready! Don't forget configurations such as .env file, etc..
@@ -99,6 +104,11 @@ const main = async () => {
     ${color.warn('Start your project with the follwoing commands:')}
     ${color.info(`cd ${cliResults.appName} && yarn`)}
     ${color.info('yarn dev')}
+
+    ${color.warn('Configs:')}
+      ${color.info(printConfigs(cliResults))}
+
+    ${color.warn('CLI Version:')} ${color.info(getPackageVersion())}
   `);
 };
 
@@ -113,3 +123,16 @@ main().catch((err) => {
   }
   process.exit(1);
 });
+
+function printConfigs(cliOptions: CLIOptions) {
+  if (cliOptions.options.projectType === 'client') {
+    return `- Project Type: ${cliOptions.options.projectType}`;
+  }
+
+  return `
+  - Project Type: ${cliOptions.options.projectType}
+  - Builder Type: ${cliOptions.options.builderType}
+  - PM2 Included: ${cliOptions.options.withDockerCompose}
+  - Docker Compose Included ${cliOptions.options.withPm2}
+  `;
+}

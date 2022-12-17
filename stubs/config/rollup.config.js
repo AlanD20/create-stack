@@ -2,9 +2,9 @@ import { defineConfig } from 'rollup';
 import json from '@rollup/plugin-json';
 import { uglify } from 'rollup-plugin-uglify';
 import commonjs from '@rollup/plugin-commonjs';
-import { hoistImportDeps } from 'rollup-plugin-hoist-import-deps';
 import tsConfigPaths from 'rollup-plugin-ts-paths';
 import typescript from '@rollup/plugin-typescript';
+import { hoistImportDeps } from 'rollup-plugin-hoist-import-deps';
 import babel, { getBabelOutputPlugin } from '@rollup/plugin-babel';
 
 const prod = process.env.NODE_ENV === 'production' ? true : false;
@@ -15,7 +15,7 @@ export default defineConfig({
   input: 'src/index.ts',
   output: {
     dir: 'dist',
-    format: 'cjs',
+    format: 'esm',
     plugins: [
       // Go through babel
       getBabelOutputPlugin({

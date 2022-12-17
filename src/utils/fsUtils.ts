@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { box } from '~/helpers/box.js';
 import { color } from '~/helpers/color.js';
 import { FSJetpack } from 'fs-jetpack/types.js';
+import { logger } from '~/helpers/logger.js';
 
 export const getStubPath = (...dir: string[]): FSJetpack => {
   // import.meta.url returns main script file
@@ -14,6 +15,8 @@ export const getStubPath = (...dir: string[]): FSJetpack => {
 };
 
 export const isPathEmpty = (appName: string) => {
+  logger.info('Checking project directory exists...');
+
   const projectDir = jetpack.cwd(appName);
   const path = jetpack.exists(projectDir.cwd());
 
@@ -28,6 +31,8 @@ export const isPathEmpty = (appName: string) => {
 };
 
 export const createProjectDirectory = (appName: string): FSJetpack => {
+  logger.info('Creating project directory...');
+
   const projectDir = jetpack.cwd(appName);
 
   // Create directory, overwrite if exists

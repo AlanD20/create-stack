@@ -11,6 +11,8 @@ export interface Flags {
 export interface ProjectOptions {
   projectType: ProjectType;
   builderType: BuilderType;
+  withDockerCompose: boolean;
+  withPm2: boolean;
 }
 
 export type ProjectType = 'client' | 'server';
