@@ -26,7 +26,9 @@ export const initServerProject = async (
 
   // Copy pm2 config file
   if (cliOptions.options.withPm2) {
-    copyConfigFile(`pm2.json`, projectDir.cwd());
+    copyConfigFile(`pm2.json`, projectDir.cwd(), {
+      appName: cliOptions.appName,
+    });
   }
 
   // Resolve server template path
@@ -39,10 +41,18 @@ export const initServerProject = async (
     let content: string | WritableData = stubPath.read(path) ?? '';
 
     if (files.includes(path)) {
-      content = compileStubFile(content, {
-        builderType,
-        appName: cliOptions.appName,
-      });
+      content = compileStubFile(
+        content,
+        {
+          builderType,
+          appName: cliOptions.appName,
+          ...(path === 'README.md' && buildStubReadme(cliOptions)),
+        },
+        {
+          // don't escape if current file is README.md
+          ...(path === 'README.md' && { noEscape: true }),
+        }
+      );
     }
 
     projectDir.write(path, content);
@@ -55,3 +65,19 @@ export const initServerProject = async (
 
   return projectDir.exists(projectDir.cwd()) === 'dir';
 };
+
+function buildStubReadme(cliOptions: CLIOptions) {
+  if (!cliOptions.options.withDockerCompose) return {};
+
+  return {
+    dockerCommand: `- Docker compose:
+
+    \`\`\`bash
+     yarn docker:install # Pull images
+     yarn up # Create Docker-compose container
+     yarn down # Delete Docker-compose container
+    \`\`\``,
+    dockerDescription:
+      '- Docker compose template for Node app + MySQL + Adminer.',
+  };
+}

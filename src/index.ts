@@ -132,7 +132,7 @@ function printConfigs(cliOptions: CLIOptions) {
   return `
   - Project Type: ${cliOptions.options.projectType}
   - Builder Type: ${cliOptions.options.builderType}
-  - PM2 Included: ${cliOptions.options.withDockerCompose}
-  - Docker Compose Included ${cliOptions.options.withPm2}
+  - PM2 Included: ${cliOptions.options.withPm2}
+  - Docker Compose Included ${cliOptions.options.withDockerCompose}
   `;
 }

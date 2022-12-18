@@ -3,10 +3,11 @@ import type { WritableData } from 'fs-jetpack/types.js';
 
 export const compileStubFile = (
   content: string = '',
-  obj: object = {}
+  obj: object = {},
+  options: object = {}
 ): WritableData => {
   if (!content) return content;
 
-  const template = Handlebars.compile(content);
+  const template = Handlebars.compile(content, options);
   return template(obj);
 };

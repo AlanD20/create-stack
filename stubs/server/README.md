@@ -8,7 +8,7 @@ This repository template can be used as a reference to some of the configuration
 - Lodash + PM2.
 - Prettier Script to format.
 - {{builderType}}
-- Docker compose template for Node app + MySQL + Adminer.
+{{dockerDescription}}
 
 ## Commands
 
@@ -27,13 +27,7 @@ This repository template can be used as a reference to some of the configuration
     yarn build # Build for production
    ```
 
-- Docker compose:
-
-   ```bash
-    yarn docker:install # Pull images 
-    yarn up # Create Docker-compose container 
-    yarn down # Delete Docker-compose container 
-   ```
+{{dockerCommand}}
 
 ## License
 

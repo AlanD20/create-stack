@@ -21,7 +21,7 @@ export const buildStubPkgJson = (
   if (withPM2) {
     pkg.dependencies = {
       ...pkg.dependencies,
-      "pm2": "^5.2.2",
+      pm2: '^5.2.2',
     };
   }
 
@@ -73,10 +73,10 @@ function getBuilderScripts(builderType: BuilderType): object {
     };
   } else if (builderType === 'tsup') {
     return {
-      dev: 'rimraf ./dist && tsc && tsup --config tsup.config.ts',
+      dev: 'rimraf ./dist && tsc && tsup --config tsup.config.js',
       watch: 'yarn dev --watch src',
       build:
-        'rimraf dist && tsc && tsup --config tsup.config.ts --env.NODE_ENV production',
+        'rimraf dist && tsc && tsup --config tsup.config.js --env.NODE_ENV production',
     };
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "@aland20/create-stack",
   "description": "Easily start building web application by generating boilerplate for your next project.",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "author": "AlanD20",
   "private": false,
@@ -33,7 +33,7 @@
     "start": "node dist/index.js",
     "dev": "rimraf dist && tsc && rollup -c rollup.config.js --environment NODE_ENV:local",
     "watch": "yarn dev -w",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js --environment NODE_ENV=production",
+    "prod": "rimraf dist && tsc && rollup -c rollup.config.js --environment NODE_ENV=production",
     "format": "prettier --write src"
   },
   "dependencies": {
