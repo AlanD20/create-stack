@@ -1,18 +1,20 @@
 import { z } from 'zod';
-import __ from 'lodash';
 import { Response } from 'express';
-import { Prisma } from '@prisma/client';
+
+
+// ZOD error handling
+// https://github.com/colinhacks/zod/blob/master/ERROR_HANDLING.md
 
 const Schemas = {
-  question: z.object({
-    name: z.string().min(3, "Name must be at least 3 characters"),
+  newsletter: z.object({
+    name: z.string({}).min(3, "Name must be at least 3 characters"),
     email: z.string().email('email must be valid email address'),
     subscribe: z.boolean().nullish().default(false)
   }).strict(),
 };
 
 // Extract types from schema
-export type Question = z.infer<typeof Schemas.question>
+export type Newsletter = z.infer<typeof Schemas.newsletter>
 
 interface ValidatorState {
   response: Response;
@@ -45,11 +47,7 @@ export const validator = async (
 
     let errors: any = [];
 
-    if (err instanceof Prisma.PrismaClientKnownRequestError) {
-
-      errors = parsePrismaErrors(err);
-    }
-    else if (err instanceof z.ZodError) {
+    if (err instanceof z.ZodError) {
 
       errors = parseZodErrors(err);
     }
@@ -68,26 +66,15 @@ export const validator = async (
   }
 };
 
-function parsePrismaErrors(err: Prisma.PrismaClientKnownRequestError) {
-
-  const errors: string[] = []
-
-  if (err.code === 'P2002') {
-    // @ts-ignore
-    const target: string = err.meta.target.split('_')[1]
-    const column = __.capitalize(target);
-    errors.push(`${column} is already exist`);
-  }
-
-  return errors;
-}
-
 function parseZodErrors(zodError: z.ZodError): string[] {
 
   const errors: string[] = [];
-  zodError.issues.forEach(
-    (issue: z.ZodIssue) => errors.push(issue.message)
-  );
+  zodError.issues.forEach((issue: z.ZodIssue) => {
+
+    const fieldName = issue.path[0];
+
+    errors.push(`${fieldName} field ${issue.message}`)
+  });
 
   return errors;
 }

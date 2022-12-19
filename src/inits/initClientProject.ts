@@ -12,7 +12,7 @@ export const initClientProject = (
 
   // For each file, compile handlebars template
   stubPath.find({ matching: '*' }).forEach((path) => {
-    const files = ['package.json', 'index.html'];
+    const files = ['package.json', 'index.html', 'src\\pages\\Dashboard.tsx'];
 
     let content: string | WritableData = stubPath.read(path) ?? '';
 

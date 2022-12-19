@@ -15,6 +15,7 @@ import {
   projectTypePrompt,
   withDockerComposePrompt,
   withPm2Prompt,
+  withPrismaPrompt,
 } from './utils/prompts.js';
 import {
   getPackageDescription,
@@ -29,6 +30,7 @@ const CLIDefaultOptions: CLIOptions = {
   options: {
     projectType: 'client',
     builderType: 'rollup',
+    withPrisma: true,
     withDockerCompose: false,
     withPm2: false,
   },
@@ -76,6 +78,7 @@ const main = async () => {
 
   // Prompts when user chooses server boilerplate
   if (cliResults.options.projectType === 'server') {
+    cliResults.options.withPrisma = await withPrismaPrompt();
     cliResults.options.withDockerCompose = await withDockerComposePrompt();
     cliResults.options.withPm2 = await withPm2Prompt();
     cliResults.options.builderType = await builderTypePrompt();

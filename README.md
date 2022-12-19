@@ -1,13 +1,13 @@
 # Create-Stack CLI Boilerplate Generator
 
-Create-Stack is a CLI application that generates boilerplate for web application. Currently, it supports client and server side projects for web application.
+Create-Stack is a CLI application that allows you to Easily start building web application by generates boilerplate and pre-configured setup. Currently, it supports client and server side projects for web application.
 
 ## Server Side Project
 
-- Nodejs + Expressjs + Prisma With Typescript.
-- Lodash + PM2.
+- Nodejs + Expressjs + Prisma *(Optional)* With Typescript.
+- Lodash + PM2 *(Optional)*.
 - Prettier Script to format.
-- Docker compose template for Node app + MySQL + Adminer.
+- *(Optional)* Docker compose template for Node app + MySQL + Adminer.
 - Rollup or tsup.
 
 ## Client Side Project
@@ -38,6 +38,10 @@ Create-Stack is a CLI application that generates boilerplate for web application
 ```bash
 create-stack my-app
 ```
+
+## Contribute
+
+Feel free to contribute and make a pull request :)
 
 ## License
 

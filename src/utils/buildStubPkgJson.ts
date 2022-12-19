@@ -17,6 +17,15 @@ export const buildStubPkgJson = (
 
   const withDocker = cliOptions.options.withDockerCompose;
   const withPM2 = cliOptions.options.withPm2;
+  const withPrisma = cliOptions.options.withPrisma;
+
+  if (withPrisma) {
+    pkg.dependencies = {
+      ...pkg.dependencies,
+      '@prisma/client': '4.7.1',
+      prisma: '^4.7.1',
+    };
+  }
 
   if (withPM2) {
     pkg.dependencies = {
@@ -30,6 +39,7 @@ export const buildStubPkgJson = (
     ...getBuilderScripts(builderType),
     ...pkg.scripts,
     ...(withDocker && getDockerComposeScripts()),
+    ...(withPrisma && getPrismaScripts()),
   };
 
   projectDir.write(currentPath, pkg);
@@ -89,6 +99,14 @@ function getDockerComposeScripts() {
     down: 'docker-compose -f server.yml down --rmi local -v',
     'docker:install':
       'docker pull node:16.19.0 && docker pull mysql && docker pull adminer',
+  };
+}
+
+function getPrismaScripts() {
+  return {
+    'db:mg': 'prisma migrate dev --name',
+    'db:gen': 'prisma generate',
+    'db:push': 'prisma db push && yarn db:generate',
   };
 }
 

@@ -4,27 +4,27 @@ This repository template can be used as a reference to some of the configuration
 
 ## Pre-defined Packages/Configurations
 
-- Nodejs + Expressjs + Prisma With Typescript.
-- Lodash + PM2.
-- Prettier Script to format.
-- {{builderType}}
+- Nodejs + Expressjs{{withPrisma}} With Typescript
+- Lodash
+- Prettier Script to format
+{{builderType}}
+{{withPm2}}
 {{dockerDescription}}
 
 ## Commands
 
-- Start the Express server using PM2:
+- Start the Express server:
 
    ```bash
     yarn start
-    yarn prod  # pm2 in Production
    ```
 
 - Bundle the files:
 
    ```bash
-    yarn dev # Build one time
+    yarn dev   # Build one time
     yarn watch # Watch changes
-    yarn build # Build for production
+    yarn prod  # Build for production
    ```
 
 {{dockerCommand}}

@@ -7,11 +7,12 @@
     "lib": ["es2017", "ESNext"],
     // stricter type-checking for stronger correctness. Recommended by TS
     "strict": true,
-    "allowJs": false,
+    "allowJs": true,
     // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
+    "noImplicitAny": false, // Set to true for strict typing
     "useDefineForClassFields": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
@@ -34,6 +35,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../config/server/src/validator.base.ts"],
   "exclude": ["node_modules", "test"]
 }

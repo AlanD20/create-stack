@@ -68,3 +68,14 @@ export const withPm2Prompt = async () => {
 
   return withPm2;
 };
+
+export const withPrismaPrompt = async () => {
+  const { withPrisma } = await inquirer.prompt<{ withPrisma: boolean }>({
+    name: 'withPrisma',
+    type: 'confirm',
+    message: color.info('Would you like to use Prisma?'),
+    default: true,
+  });
+
+  return withPrisma;
+};

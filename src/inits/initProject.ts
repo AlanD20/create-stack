@@ -3,6 +3,7 @@ import { logger } from '~/helpers/logger.js';
 import { initClientProject } from './initClientProject.js';
 import { initServerProject } from './initServerProject.js';
 import { createProjectDirectory } from '~/utils/fsUtils.js';
+import { copyFileFromConfigDir } from '~/utils/copyFromConfigDir.js';
 
 export const initProject = async (cliOptions: CLIOptions): Promise<boolean> => {
   const projectType = cliOptions.options.projectType;
@@ -18,6 +19,9 @@ export const initProject = async (cliOptions: CLIOptions): Promise<boolean> => {
     logger.error('Please select a project type!');
     return false;
   }
+
+  // Copy git ignore file to project directory
+  copyFileFromConfigDir(`gitignore`, projectDir.cwd() + '/.gitignore');
 
   return isSuccess;
 };

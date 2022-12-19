@@ -1,38 +1,41 @@
-import dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
-import { Question, validator } from './app/validator';
+import config from './app/config';
+import { Newsletter, validator } from './app/validator';
 
-dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+
+// Create public directory at root to serve static
 app.use(express.static('public'));
 
+
 app.get('/', (req, res) => {
-  res.send('Hey There! Welcome to zod');
+  res.setHeader('content-type', 'text/html; charset=utf-8');
+  res.send('<h1>Hey There! Your {{appName}} Application is ready<h1>');
 });
 
 
 app.get('/api', (req, res) => {
   res.status(200).json({
-    message: 'Hey There, This is an API endpoint for zod!',
+    message: 'Hey There, This is an API endpoint for {{appName}} Application!',
     status: 'success',
     code: 200,
   });
 });
 
 
-app.post('/api/question', (req, res) => {
+app.post('/api/newsletter', (req, res) => {
 
   return validator({
     response: res,
-    schema: 'question',
+    schema: 'newsletter',
     body: req.body
-  }, ({ name, email, subscribe }: Question) => {
+  }, ({ name, email, subscribe }: Newsletter) => {
 
     return {
       data: { name, email, subscribe },
@@ -40,6 +43,7 @@ app.post('/api/question', (req, res) => {
     }
   })
 });
+
 
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://127.0.0.1:${PORT}`);

@@ -9,7 +9,7 @@ const Dashboard = () => {
       {/* Alert Status State */}
       <AlertStatus />
 
-      <TitleText label="Hello There!">
+      <TitleText label="Hello There! Your {{appName}} Application is Ready">
         <GiHand />
       </TitleText>
 

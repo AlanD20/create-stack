@@ -11,6 +11,7 @@ export interface Flags {
 export interface ProjectOptions {
   projectType: ProjectType;
   builderType: BuilderType;
+  withPrisma: boolean;
   withDockerCompose: boolean;
   withPm2: boolean;
 }
